@@ -1,3 +1,11 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
 constants:
   jwt:
     issuer: green@green.com
@@ -12,35 +20,36 @@ constants:
 
 eureka:
   client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8888/eureka
-
-server:
-  port: 8080
-  servlet:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
+    enabled: false
 
 spring:
   application:
     name: hanip-cloud-gateway
 
   cloud:
+    kubernetes:
+      discovery:
+        enabled: true
+      reload:
+        enabled: true
+        strategy: refresh
     gateway:
       server:
         webflux:
           routes:
+            - id: sse
+              uri: lb://hanip-action
+              predicates:
+                - Path=/api/sse/**
+              filters:
+                - PreserveHostHeader
             - id: hanip-action
               uri: lb://hanip-action
               predicates:
-                - Path=/api/favorite/**, /api/contact/**, /api/review/**, /api/order/**, /api/cart/**, /api/hanip-manager/action/**
+                - Path=/api/favorite/**, /api/contact/**, /api/review/**, /api/order/**, /api/cart/**, /api/hanip-manager/action/**, /api/kakao/**, /api/naver/**
             - id: hanip-actor
               uri: lb://hanip-actor
               predicates:
-                - Path=/api/user/** ,/api/store/**,  /api/menu/**, /api/hanip-manager/actor/**
+                - Path=/api/user/** ,/api/store/**, /api/menu/**, /api/hanip-manager/actor/**, /images/**
   jackson:
     default-property-inclusion: non_null
