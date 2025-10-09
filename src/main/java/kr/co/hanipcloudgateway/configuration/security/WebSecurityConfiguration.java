@@ -60,7 +60,7 @@ public class WebSecurityConfiguration {
                    .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                    .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                    .securityContextRepository(new StatelessWebSessionSecurityContextRepository()) // 세션 사용 안 함
-                   .authorizeExchange(exchanges -> exchanges.pathMatchers("/api/user/login", "/api/user/join").permitAll()
+                   .authorizeExchange(exchanges -> exchanges.pathMatchers("/api/user/login", "/api/user/join","/api/kakao-login/authorize").permitAll()
                                                             .anyExchange().permitAll()
                    )
                    .cors(corsSpec -> corsSpec.configurationSource(corsConfigurationSource()))
