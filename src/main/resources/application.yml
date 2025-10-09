@@ -47,6 +47,6 @@ spring:
             - id: actor
               uri: lb://HANIP-ACTOR
               predicates:
-                - Path=/api/user/** ,/api/store/**, /api/menu/**, /api/hanip-manager/actor/**, /images/**
+                - Path=/api/user/** ,/api/store/**, /api/menu/**, /api/hanip-manager/actor/**, /images/**, /api/kakao-login/**
   jackson:
     default-property-inclusion: non_null
