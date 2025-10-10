@@ -60,8 +60,19 @@ public class WebSecurityConfiguration {
                    .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                    .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                    .securityContextRepository(new StatelessWebSessionSecurityContextRepository()) // 세션 사용 안 함
-                   .authorizeExchange(exchanges -> exchanges.pathMatchers("/api/user/login", "/api/user/join").permitAll()
-                                                            .anyExchange().permitAll()
+                   .authorizeExchange(exchanges -> exchanges
+                           .pathMatchers(
+                                   "/api/user/login", "/api/user/check-id", "/api/user/join", "/api/user/reissue",
+                                   "/api/kakao-login/**",
+                                   "/api/order/rider", "/api/hanip-manager/actor/login").permitAll()
+                           .pathMatchers(
+                                   "/api/kakao", "/api/naver", "/api/user/logout",
+                                   "/api/cart/**", "/api/favorite", "/api/user/address", "/api/user/check-password",
+                                   "/api/store/owner", "/api/order/**", "/api/sse/**",
+                                   "/api/hanip-manager/actor/**", "/api/hanip-manager/action/**").authenticated()
+                           .pathMatchers(HttpMethod.GET, "/api/user").authenticated()
+                           .pathMatchers(HttpMethod.PUT, "/api/user").authenticated()
+                           .anyExchange().permitAll()
                    )
                    .cors(corsSpec -> corsSpec.configurationSource(corsConfigurationSource()))
                    .addFilterAt(tokenAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
