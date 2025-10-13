@@ -40,6 +40,8 @@ spring:
                 - Path=/api/sse/**
               filters:
                 - PreserveHostHeader
+                - SetResponseHeader=Content-Type, text/event-stream;charset=UTF-8
+                - DedupeResponseHeader=Content-Type RETAIN_LAST
             - id: action
               uri: lb://HANIP-ACTION
               predicates:
